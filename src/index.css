@@ -989,6 +989,87 @@ footer {
   font-weight: 400;
 }
 
+/* ─── CONTACT PAGE ───────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--border);
+}
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+  border-right: 1px solid var(--border);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.contact-card:last-child { border-right: none; }
+.contact-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent-live);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.contact-card:hover::after { transform: scaleX(1); }
+.contact-card:hover { background: rgba(0,229,160,0.03); }
+
+.contact-card-icon {
+  width: 40px; height: 40px;
+  color: var(--accent-live);
+  margin-bottom: 28px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+.contact-card:hover .contact-card-icon { opacity: 1; }
+.contact-card-icon svg { width: 100%; height: 100%; }
+
+.contact-card-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.contact-card-value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  line-height: 1.1;
+  flex: 1;
+  transition: color 0.3s;
+}
+.contact-card:hover .contact-card-value { color: var(--accent-live); }
+
+.contact-card-arrow {
+  margin-top: 32px;
+  color: var(--muted);
+  transition: color 0.3s, transform 0.3s;
+}
+.contact-card:hover .contact-card-arrow {
+  color: var(--accent-live);
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+  .contact-card:nth-child(2n) { border-right: none; }
+  .contact-card { border-bottom: 1px solid var(--border); }
+  .contact-card:nth-last-child(-n+2) { border-bottom: none; }
+}
+@media (max-width: 600px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .contact-card:last-child { border-bottom: none; }
+}
+
 /* ─── WORK PAGE ──────────────────────────────────── */
 .work-row {
   display: grid;
