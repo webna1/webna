@@ -14,7 +14,6 @@ export function Navbar({ currentPage, navigate }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // close menu on page change
   useEffect(() => { setMenuOpen(false); }, [currentPage]);
 
   const go = (page) => { navigate(page); setMenuOpen(false); };
@@ -29,38 +28,49 @@ export function Navbar({ currentPage, navigate }) {
   return (
     <>
       <nav id="main-nav">
+        {/* Logo — left */}
         <button className="nav-logo" onClick={() => go('home')}>
-          <div className="nav-logo-text">WEB<span className="ar">نا</span></div>
-          <div className="nav-logo-pipe" />
-          <div className="nav-logo-sub">Web Agency</div>
+          <div className="nav-logo-mark">
+            <div className="nav-logo-text">WEB<span className="ar">نا</span></div>
+          </div>
+          <div className="nav-logo-badge">
+            <div className="nav-logo-badge-dot" />
+            <div className="nav-logo-sub">Web Agency</div>
+          </div>
         </button>
 
-        {/* Desktop */}
+        {/* Links — center */}
         <ul className="nav-links">
           {NAV_ITEMS.map(({ label, page }) => (
             <li key={page}>
-              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>{label}</button>
+              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>
+                {label}
+              </button>
             </li>
           ))}
-          <li><button className="nav-cta" onClick={() => go('contact')}>Start a Project</button></li>
         </ul>
 
-        {/* Hamburger */}
-        <button
-          className={`hamburger${menuOpen ? ' open' : ''}`}
-          onClick={() => setMenuOpen(o => !o)}
-          aria-label="Toggle menu"
-        >
-          <span /><span /><span />
-        </button>
+        {/* Right — CTA + hamburger */}
+        <div className="nav-right">
+          <button className="nav-cta" onClick={() => go('contact')}>Start a Project</button>
+          <button
+            className={`hamburger${menuOpen ? ' open' : ''}`}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+          >
+            <span /><span /><span />
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile slide-down menu */}
       <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
         <ul>
           {NAV_ITEMS.map(({ label, page }) => (
             <li key={page}>
-              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>{label}</button>
+              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>
+                {label}
+              </button>
             </li>
           ))}
           <li>
@@ -69,7 +79,6 @@ export function Navbar({ currentPage, navigate }) {
         </ul>
       </div>
 
-      {/* Overlay */}
       {menuOpen && <div className="menu-overlay" onClick={() => setMenuOpen(false)} />}
     </>
   );
