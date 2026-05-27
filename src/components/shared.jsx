@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export function Navbar({ currentPage, navigate }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const nav = document.getElementById('main-nav');
     if (!nav) return;
@@ -12,21 +14,64 @@ export function Navbar({ currentPage, navigate }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // close menu on page change
+  useEffect(() => { setMenuOpen(false); }, [currentPage]);
+
+  const go = (page) => { navigate(page); setMenuOpen(false); };
+
+  const NAV_ITEMS = [
+    { label: 'About',    page: 'about' },
+    { label: 'Services', page: 'services' },
+    { label: 'Process',  page: 'process' },
+    { label: 'Work',     page: 'work' },
+  ];
+
   return (
-    <nav id="main-nav">
-      <button className="nav-logo" onClick={() => navigate('home')} style={{ background: 'none', border: 'none', cursor: 'none' }}>
-        <div className="nav-logo-text">WEB<span className="ar">نا</span></div>
-        <div className="nav-logo-pipe" />
-        <div className="nav-logo-sub">Web Agency</div>
-      </button>
-      <ul className="nav-links">
-        <li><button className={currentPage === 'about'    ? 'active' : ''} onClick={() => navigate('about')}>About</button></li>
-        <li><button className={currentPage === 'services' ? 'active' : ''} onClick={() => navigate('services')}>Services</button></li>
-        <li><button className={currentPage === 'process'  ? 'active' : ''} onClick={() => navigate('process')}>Process</button></li>
-        <li><button className={currentPage === 'work'     ? 'active' : ''} onClick={() => navigate('work')}>Work</button></li>
-        <li><button className="nav-cta" onClick={() => navigate('contact')}>Start a Project</button></li>
-      </ul>
-    </nav>
+    <>
+      <nav id="main-nav">
+        <button className="nav-logo" onClick={() => go('home')}>
+          <div className="nav-logo-text">WEB<span className="ar">نا</span></div>
+          <div className="nav-logo-pipe" />
+          <div className="nav-logo-sub">Web Agency</div>
+        </button>
+
+        {/* Desktop */}
+        <ul className="nav-links">
+          {NAV_ITEMS.map(({ label, page }) => (
+            <li key={page}>
+              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>{label}</button>
+            </li>
+          ))}
+          <li><button className="nav-cta" onClick={() => go('contact')}>Start a Project</button></li>
+        </ul>
+
+        {/* Hamburger */}
+        <button
+          className={`hamburger${menuOpen ? ' open' : ''}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Toggle menu"
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
+        <ul>
+          {NAV_ITEMS.map(({ label, page }) => (
+            <li key={page}>
+              <button className={currentPage === page ? 'active' : ''} onClick={() => go(page)}>{label}</button>
+            </li>
+          ))}
+          <li>
+            <button className="mobile-cta" onClick={() => go('contact')}>Start a Project</button>
+          </li>
+        </ul>
+      </div>
+
+      {/* Overlay */}
+      {menuOpen && <div className="menu-overlay" onClick={() => setMenuOpen(false)} />}
+    </>
   );
 }
 

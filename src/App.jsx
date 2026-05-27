@@ -6,6 +6,7 @@ import ServicesPage from './pages/ServicesPage';
 import ProcessPage from './pages/ProcessPage';
 import ContactPage from './pages/ContactPage';
 import WorkPage from './pages/WorkPage';
+import WhatsAppFloat from './components/WhatsAppFloat';
 import './index.css';
 
 function useWebNACursor() {
@@ -102,6 +103,7 @@ export default function App() {
         {pageMap[page] || pageMap.home}
       </main>
       <Footer navigate={navigate} />
+      <WhatsAppFloat />
     </div>
   );
 }
