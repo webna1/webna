@@ -23,6 +23,7 @@ export function Navbar({ currentPage, navigate }) {
         <li><button className={currentPage === 'about'    ? 'active' : ''} onClick={() => navigate('about')}>About</button></li>
         <li><button className={currentPage === 'services' ? 'active' : ''} onClick={() => navigate('services')}>Services</button></li>
         <li><button className={currentPage === 'process'  ? 'active' : ''} onClick={() => navigate('process')}>Process</button></li>
+        <li><button className={currentPage === 'work'     ? 'active' : ''} onClick={() => navigate('work')}>Work</button></li>
         <li><button className="nav-cta" onClick={() => navigate('contact')}>Start a Project</button></li>
       </ul>
     </nav>
@@ -39,8 +40,8 @@ export function Footer({ navigate }) {
             <div className="footer-tagline">We build digital structures that stand.</div>
           </div>
           <div className="footer-right">
-            <div className="footer-copy">© 2025 WEBNA. All rights reserved.</div>
-            <div className="footer-loc">Est. 2023 · Global</div>
+            <div className="footer-copy">© 2026 WEBNA. All rights reserved.</div>
+            <div className="footer-loc">Est. 2026 · London, UK</div>
           </div>
         </div>
       </div>

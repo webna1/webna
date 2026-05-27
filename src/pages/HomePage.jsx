@@ -14,7 +14,7 @@ export default function HomePage({ navigate }) {
           <div className="hero-content">
             <div className="hero-badge">
               <div className="badge-dot" />
-              <span className="badge-text">Now accepting new projects — 2025</span>
+              <span className="badge-text">Now accepting new projects — 2026</span>
             </div>
 
             <h1 className="hero-headline">
@@ -39,15 +39,15 @@ export default function HomePage({ navigate }) {
 
           <div className="hero-stats">
             <div className="stat-item">
-              <div className="stat-num">40+</div>
+              <div className="stat-num">34+</div>
               <div className="stat-label">Projects Delivered</div>
             </div>
             <div className="stat-item">
-              <div className="stat-num">3×</div>
+              <div className="stat-num">2.8×</div>
               <div className="stat-label">Avg. Traffic Growth</div>
             </div>
             <div className="stat-item">
-              <div className="stat-num">100%</div>
+              <div className="stat-num">96%</div>
               <div className="stat-label">Client Retention</div>
             </div>
           </div>

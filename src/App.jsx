@@ -5,6 +5,7 @@ import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import ProcessPage from './pages/ProcessPage';
 import ContactPage from './pages/ContactPage';
+import WorkPage from './pages/WorkPage';
 import './index.css';
 
 function useWebNACursor() {
@@ -90,6 +91,7 @@ export default function App() {
     about:    <AboutPage   navigate={navigate} />,
     services: <ServicesPage navigate={navigate} />,
     process:  <ProcessPage navigate={navigate} />,
+    work:     <WorkPage    navigate={navigate} />,
     contact:  <ContactPage navigate={navigate} />,
   };
 
