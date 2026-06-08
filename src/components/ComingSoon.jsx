@@ -1,178 +1,286 @@
+import { useEffect, useRef } from 'react';
+
+const ANNOTATIONS = [
+  { x1: 10, y1: 8,   x2: 310, y2: 8,   label: '1400px', labelX: 160, labelY: 5,  axis: 'h' },
+  { x1: 8,  y1: 10,  x2: 8,   y2: 190, label: '100vh',  labelX: 2,   labelY: 100, axis: 'v' },
+  { x1: 10, y1: 36,  x2: 100, y2: 36,  label: '72px',   labelX: 55,  labelY: 33, axis: 'h' },
+];
+
+const SHAPES = [
+  // browser outer
+  { x: 10, y: 10, w: 300, h: 180, delay: 0 },
+  // nav bar
+  { x: 10, y: 10, w: 300, h: 22, delay: 0.4 },
+  // hero
+  { x: 10, y: 35, w: 300, h: 70, delay: 0.8 },
+  // hero headline block
+  { x: 22, y: 48, w: 120, h: 10, delay: 1.2 },
+  { x: 22, y: 62, w: 80,  h: 6,  delay: 1.5 },
+  // hero cta
+  { x: 22, y: 74, w: 36, h: 12, delay: 1.7 },
+  // col 1
+  { x: 10, y: 110, w: 92, h: 70, delay: 2.1 },
+  // col 2
+  { x: 114, y: 110, w: 92, h: 70, delay: 2.4 },
+  // col 3
+  { x: 218, y: 110, w: 92, h: 70, delay: 2.7 },
+  // col inner lines
+  { x: 22, y: 122, w: 68, h: 6,  delay: 3.0 },
+  { x: 22, y: 132, w: 50, h: 4,  delay: 3.1 },
+  { x: 126, y: 122, w: 68, h: 6, delay: 3.0 },
+  { x: 126, y: 132, w: 50, h: 4, delay: 3.1 },
+  { x: 230, y: 122, w: 68, h: 6, delay: 3.0 },
+  { x: 230, y: 132, w: 50, h: 4, delay: 3.1 },
+];
+
+function perimeter(w, h) {
+  return 2 * (w + h);
+}
+
 export default function ComingSoon() {
+  const svgRef = useRef(null);
+
+  useEffect(() => {
+    const rects = svgRef.current?.querySelectorAll('.bp-rect');
+    rects?.forEach(r => {
+      const len = parseFloat(r.getAttribute('data-perim'));
+      r.style.strokeDasharray = len;
+      r.style.strokeDashoffset = len;
+    });
+  }, []);
+
   return (
     <div style={styles.page}>
-      {STARS.map((s, i) => (
-        <div key={i} style={{ ...styles.star, ...s }} />
-      ))}
+      {/* Blueprint grid — two layers via CSS background */}
+      <div style={styles.grid} />
 
-      {DRIFTS.map((d, i) => (
-        <div key={i} style={{ ...styles.drift, ...d }} />
-      ))}
+      {/* Corner crosshairs */}
+      <div style={{ ...styles.crosshair, top: 24, left: 24 }} />
+      <div style={{ ...styles.crosshair, top: 24, right: 24, transform: 'rotate(90deg)' }} />
+      <div style={{ ...styles.crosshair, bottom: 24, left: 24, transform: 'rotate(270deg)' }} />
+      <div style={{ ...styles.crosshair, bottom: 24, right: 24, transform: 'rotate(180deg)' }} />
 
-      <div style={{ ...styles.ringWrap, ...styles.ring1 }}><div style={styles.ring}><div style={{ ...styles.ringDot, background: '#2563EB', boxShadow: '0 0 10px #2563EB, 0 0 20px rgba(37,99,235,0.5)' }} /></div></div>
-      <div style={{ ...styles.ringWrap, ...styles.ring2 }}><div style={styles.ring}><div style={{ ...styles.ringDot, background: '#93C5FD', boxShadow: '0 0 8px #93C5FD' }} /></div></div>
-      <div style={{ ...styles.ringWrap, ...styles.ring3 }}><div style={{ ...styles.ring, borderColor: 'rgba(37,99,235,0.1)' }}><div style={{ ...styles.ringDot, width: 4, height: 4, background: 'white', boxShadow: '0 0 6px white' }} /></div></div>
+      {/* Scale + revision strip — bottom */}
+      <div style={styles.strip}>
+        <span style={styles.stripItem}>WEBNA DIGITAL STUDIO</span>
+        <span style={styles.stripDivider} />
+        <span style={styles.stripItem}>SITE LAYOUT — REV.01</span>
+        <span style={styles.stripDivider} />
+        <span style={styles.stripItem}>SCALE 1:1</span>
+        <span style={styles.stripDivider} />
+        <span style={styles.stripItem}>2025 — KUWAIT</span>
+      </div>
 
-      <div style={styles.glowOrb} />
-
+      {/* Main content */}
       <div style={styles.content}>
-        <span style={styles.eyebrow}>Something is coming</span>
-        <h1 style={styles.title}>WEBNA</h1>
-        <span style={styles.arabic}>وبنا</span>
-        <div style={styles.divider} />
-        <span style={styles.badge}>Launching Soon</span>
-        <p style={styles.sub}>We&apos;re building something great</p>
+
+        {/* Logo */}
+        <div style={styles.logoRow}>
+          <span style={styles.logoEn}>WEBNA</span>
+          <span style={styles.logoDivider} />
+          <span style={styles.logoAr}>وبنا</span>
+        </div>
+
+        {/* Stamp */}
+        <div style={styles.stamp}>
+          <span style={styles.stampText}>UNDER CONSTRUCTION</span>
+        </div>
+
+        {/* Wireframe SVG */}
+        <div style={styles.svgWrap}>
+          {/* Dimension annotation — top */}
+          <svg
+            ref={svgRef}
+            viewBox="0 0 320 200"
+            style={styles.svg}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Annotation lines */}
+            <line x1="10" y1="5" x2="310" y2="5" stroke="rgba(96,165,250,0.35)" strokeWidth="0.5" markerStart="url(#arr)" markerEnd="url(#arr)" />
+            <text x="160" y="3.5" style={{ fontSize: 5, fill: 'rgba(96,165,250,0.6)', textAnchor: 'middle', fontFamily: 'monospace', letterSpacing: 0.5 }}>1400px</text>
+
+            <line x1="5" y1="10" x2="5" y2="190" stroke="rgba(96,165,250,0.35)" strokeWidth="0.5" />
+            <text x="1.5" y="105" style={{ fontSize: 5, fill: 'rgba(96,165,250,0.6)', textAnchor: 'middle', fontFamily: 'monospace', writingMode: 'vertical-rl', letterSpacing: 0.5 }}>100vh</text>
+
+            {/* Label callouts */}
+            <line x1="310" y1="10" x2="316" y2="10" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <line x1="310" y1="32" x2="316" y2="32" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <line x1="316" y1="10" x2="316" y2="32" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <text x="318" y="22" style={{ fontSize: 4, fill: 'rgba(96,165,250,0.5)', fontFamily: 'monospace' }}>NAV</text>
+
+            <line x1="310" y1="35" x2="316" y2="35" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <line x1="310" y1="105" x2="316" y2="105" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <line x1="316" y1="35" x2="316" y2="105" stroke="rgba(96,165,250,0.3)" strokeWidth="0.4" />
+            <text x="318" y="72" style={{ fontSize: 4, fill: 'rgba(96,165,250,0.5)', fontFamily: 'monospace' }}>HERO</text>
+
+            <defs>
+              <marker id="arr" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+                <path d="M0,0 L0,4 L4,2 z" fill="rgba(96,165,250,0.4)" />
+              </marker>
+            </defs>
+
+            {/* Animated wireframe rects */}
+            {SHAPES.map((s, i) => {
+              const p = perimeter(s.w, s.h);
+              return (
+                <rect
+                  key={i}
+                  className="bp-rect"
+                  data-perim={p}
+                  x={s.x} y={s.y}
+                  width={s.w} height={s.h}
+                  fill="none"
+                  stroke="#60A5FA"
+                  strokeWidth={i === 0 ? 0.8 : 0.5}
+                  strokeOpacity={i === 0 ? 0.5 : 0.35}
+                  style={{
+                    animation: `bp-draw 1.2s ease forwards`,
+                    animationDelay: `${s.delay}s`,
+                  }}
+                />
+              );
+            })}
+
+            {/* Nav logo placeholder */}
+            <rect x="14" y="14" width="24" height="6" fill="none" stroke="#60A5FA" strokeWidth="0.4" strokeOpacity="0.4"
+              style={{ animation: 'bp-draw 0.8s ease forwards', animationDelay: '0.6s', strokeDasharray: 60, strokeDashoffset: 60 }} />
+
+            {/* Hero image placeholder — dashed */}
+            <rect x="180" y="40" width="120" height="60" fill="none" stroke="#60A5FA" strokeWidth="0.4" strokeOpacity="0.25"
+              strokeDasharray="4 2"
+              style={{ animation: 'bp-fade 0.6s ease forwards', animationDelay: '1.4s', opacity: 0 }} />
+            <line x1="180" y1="40" x2="300" y2="100" stroke="#60A5FA" strokeWidth="0.3" strokeOpacity="0.2"
+              style={{ animation: 'bp-fade 0.6s ease forwards', animationDelay: '1.6s', opacity: 0 }} />
+            <line x1="300" y1="40" x2="180" y2="100" stroke="#60A5FA" strokeWidth="0.3" strokeOpacity="0.2"
+              style={{ animation: 'bp-fade 0.6s ease forwards', animationDelay: '1.6s', opacity: 0 }} />
+          </svg>
+        </div>
+
+        <p style={styles.sub}>Building something great — stay tuned.</p>
       </div>
     </div>
   );
 }
 
-const STARS = [
-  { width:2, height:2, top:'8%',  left:'12%', '--dur':'2.8s', '--delay':'0s',   '--min-op':0.3, '--max-op':1,   background:'white' },
-  { width:1, height:1, top:'15%', left:'35%', '--dur':'3.5s', '--delay':'0.7s', '--min-op':0.2, '--max-op':0.8, background:'white' },
-  { width:3, height:3, top:'22%', left:'78%', '--dur':'4s',   '--delay':'1.2s', '--min-op':0.4, '--max-op':1,   background:'#93C5FD', boxShadow:'0 0 4px #2563EB' },
-  { width:2, height:2, top:'5%',  left:'55%', '--dur':'2.5s', '--delay':'0.3s', '--min-op':0.2, '--max-op':0.9, background:'white' },
-  { width:2, height:2, top:'70%', left:'8%',  '--dur':'3.2s', '--delay':'1.5s', '--min-op':0.3, '--max-op':0.9, background:'#BFDBFE', boxShadow:'0 0 3px #60A5FA' },
-  { width:1, height:1, top:'85%', left:'25%', '--dur':'4.2s', '--delay':'0.9s', '--min-op':0.2, '--max-op':0.7, background:'white' },
-  { width:2, height:2, top:'75%', left:'88%', '--dur':'3.8s', '--delay':'0.5s', '--min-op':0.4, '--max-op':1,   background:'#93C5FD', boxShadow:'0 0 4px #2563EB' },
-  { width:1, height:1, top:'40%', left:'5%',  '--dur':'2.9s', '--delay':'2s',   '--min-op':0.2, '--max-op':0.8, background:'white' },
-  { width:2, height:2, top:'55%', left:'92%', '--dur':'3.6s', '--delay':'1s',   '--min-op':0.3, '--max-op':0.9, background:'white' },
-  { width:3, height:3, top:'90%', left:'65%', '--dur':'5s',   '--delay':'0.4s', '--min-op':0.2, '--max-op':0.8, background:'#BFDBFE', boxShadow:'0 0 3px #60A5FA' },
-  { width:1, height:1, top:'12%', left:'90%', '--dur':'2.7s', '--delay':'1.8s', '--min-op':0.2, '--max-op':0.7, background:'white' },
-  { width:2, height:2, top:'32%', left:'18%', '--dur':'3.1s', '--delay':'2.2s', '--min-op':0.3, '--max-op':0.9, background:'#93C5FD', boxShadow:'0 0 4px #2563EB' },
-  { width:1, height:1, top:'60%', left:'42%', '--dur':'3.9s', '--delay':'0.2s', '--min-op':0.1, '--max-op':0.6, background:'white' },
-  { width:2, height:2, top:'28%', left:'62%', '--dur':'3.3s', '--delay':'1.4s', '--min-op':0.2, '--max-op':0.8, background:'white' },
-  { width:1, height:1, top:'48%', left:'72%', '--dur':'4.1s', '--delay':'0.8s', '--min-op':0.1, '--max-op':0.5, background:'white' },
-].map(s => ({
-  ...s,
-  position: 'absolute',
-  borderRadius: '50%',
-  animation: `uc-twinkle var(--dur) ease-in-out infinite var(--delay)`,
-}));
-
-const DRIFTS = [
-  { width:3, height:3, background:'#2563EB', bottom:'20%', left:'30%', '--speed':'9s',  '--delay':'0s',  '--dx':'15px' },
-  { width:2, height:2, background:'#93C5FD', bottom:'30%', left:'60%', '--speed':'7s',  '--delay':'2s',  '--dx':'-10px' },
-  { width:2, height:2, background:'white',   bottom:'15%', left:'45%', '--speed':'11s', '--delay':'4s',  '--dx':'8px' },
-  { width:3, height:3, background:'#2563EB', bottom:'25%', left:'75%', '--speed':'8s',  '--delay':'1s',  '--dx':'-20px' },
-  { width:2, height:2, background:'#93C5FD', bottom:'35%', left:'20%', '--speed':'10s', '--delay':'3s',  '--dx':'12px' },
-  { width:2, height:2, background:'white',   bottom:'10%', left:'55%', '--speed':'12s', '--delay':'5s',  '--dx':'-8px' },
-].map(d => ({
-  ...d,
-  position: 'absolute',
-  borderRadius: '50%',
-  opacity: 0,
-  animation: `uc-drift var(--speed) linear infinite var(--delay)`,
-}));
-
 const styles = {
   page: {
     position: 'fixed',
     inset: 0,
-    background: 'radial-gradient(ellipse at 50% 40%, #0c1a3a 0%, #080e1f 40%, #080a0e 100%)',
+    background: '#04070f',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
-    zIndex: 9999,
+    fontFamily: "'DM Sans', sans-serif",
   },
-  ringWrap: {
+  grid: {
     position: 'absolute',
+    inset: 0,
+    backgroundImage: [
+      'linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px)',
+      'linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)',
+      'linear-gradient(rgba(37,99,235,0.03) 1px, transparent 1px)',
+      'linear-gradient(90deg, rgba(37,99,235,0.03) 1px, transparent 1px)',
+    ].join(','),
+    backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
+    WebkitMaskImage: 'radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%)',
+    maskImage: 'radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%)',
+  },
+  crosshair: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    borderTop: '1px solid rgba(96,165,250,0.4)',
+    borderLeft: '1px solid rgba(96,165,250,0.4)',
+  },
+  strip: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 32,
+    borderTop: '1px solid rgba(37,99,235,0.2)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 0,
+    background: 'rgba(4,7,15,0.8)',
   },
-  ring1: { width: 260, height: 260, animation: 'uc-orbit 18s linear infinite' },
-  ring2: { width: 370, height: 370, animation: 'uc-orbit 28s linear infinite reverse' },
-  ring3: { width: 470, height: 470, animation: 'uc-orbit 40s linear infinite' },
-  ring: {
-    width: '100%',
-    height: '100%',
-    borderRadius: '50%',
-    border: '1px solid rgba(37,99,235,0.2)',
-    position: 'relative',
+  stripItem: {
+    fontSize: 9,
+    letterSpacing: '0.2em',
+    textTransform: 'uppercase',
+    color: 'rgba(96,165,250,0.45)',
+    fontFamily: 'monospace',
+    padding: '0 20px',
   },
-  ringDot: {
-    position: 'absolute',
-    width: 6,
-    height: 6,
-    borderRadius: '50%',
-    top: -3,
-    left: '50%',
-    transform: 'translateX(-50%)',
-  },
-  glowOrb: {
-    position: 'absolute',
-    width: 320,
-    height: 320,
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)',
-    animation: 'uc-pulse 4s ease-in-out infinite',
+  stripDivider: {
+    width: 1,
+    height: 14,
+    background: 'rgba(37,99,235,0.3)',
+    flexShrink: 0,
   },
   content: {
     position: 'relative',
     zIndex: 10,
-    textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 10,
+    gap: 20,
     padding: '0 24px',
   },
-  eyebrow: {
-    fontSize: 11,
-    letterSpacing: '6px',
-    color: '#93C5FD',
-    textTransform: 'uppercase',
-    opacity: 0.65,
-    fontFamily: "'DM Sans', sans-serif",
-    fontWeight: 300,
+  logoRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 16,
   },
-  title: {
-    fontSize: 'clamp(56px, 12vw, 120px)',
+  logoEn: {
     fontFamily: "'Bebas Neue', sans-serif",
-    fontWeight: 400,
+    fontSize: 'clamp(28px, 5vw, 48px)',
+    letterSpacing: '0.12em',
+    color: 'rgba(232,234,240,0.9)',
     lineHeight: 1,
-    letterSpacing: '0.06em',
-    background: 'linear-gradient(135deg, #ffffff 0%, #93C5FD 50%, #2563EB 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    margin: 0,
   },
-  arabic: {
+  logoDivider: {
+    width: 1,
+    height: 28,
+    background: 'rgba(96,165,250,0.3)',
+  },
+  logoAr: {
     fontFamily: "'Noto Kufi Arabic', sans-serif",
-    fontSize: 'clamp(18px, 3vw, 28px)',
+    fontSize: 'clamp(18px, 3vw, 30px)',
     fontWeight: 300,
-    color: 'rgba(147,197,253,0.45)',
-    letterSpacing: '0.02em',
-    marginTop: -4,
+    color: 'rgba(96,165,250,0.6)',
+    lineHeight: 1,
   },
-  divider: {
-    width: 50,
-    height: 1,
-    background: 'linear-gradient(90deg, transparent, #2563EB, transparent)',
-    margin: '6px 0',
+  stamp: {
+    border: '2px solid rgba(96,165,250,0.5)',
+    padding: '6px 20px',
+    transform: 'rotate(-2deg)',
+    background: 'rgba(37,99,235,0.06)',
   },
-  badge: {
-    display: 'inline-block',
-    padding: '5px 16px',
-    border: '1px solid rgba(147,197,253,0.3)',
-    borderRadius: 20,
-    fontSize: 10,
-    letterSpacing: '4px',
-    color: '#93C5FD',
-    textTransform: 'uppercase',
-    background: 'rgba(37,99,235,0.08)',
-    fontFamily: "'DM Sans', sans-serif",
-    fontWeight: 400,
+  stampText: {
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 'clamp(18px, 3.5vw, 32px)',
+    letterSpacing: '0.18em',
+    color: 'rgba(96,165,250,0.85)',
+    lineHeight: 1,
+  },
+  svgWrap: {
+    width: '100%',
+    maxWidth: 480,
+  },
+  svg: {
+    width: '100%',
+    height: 'auto',
+    display: 'block',
   },
   sub: {
-    fontSize: 13,
-    color: 'rgba(147,197,253,0.45)',
-    letterSpacing: 1,
-    fontFamily: "'DM Sans', sans-serif",
+    fontSize: 12,
+    color: 'rgba(96,165,250,0.35)',
+    letterSpacing: '0.14em',
+    textTransform: 'uppercase',
     fontWeight: 300,
     margin: 0,
   },
