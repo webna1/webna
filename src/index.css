@@ -905,6 +905,28 @@ footer {
   background: rgba(0,0,0,0.4);
 }
 
+@keyframes uc-twinkle {
+  0%, 100% { opacity: var(--min-op, 0.2); transform: scale(1); }
+  50%       { opacity: var(--max-op, 0.9); transform: scale(1.3); }
+}
+
+@keyframes uc-drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.2; }
+  100% { transform: translateY(-120px) translateX(var(--dx, 20px)); opacity: 0; }
+}
+
+@keyframes uc-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes uc-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.6; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
 @keyframes wa-pulse {
   0%, 100% { transform: scale(1); opacity: 0.6; }
   50% { transform: scale(1.5); opacity: 0; }

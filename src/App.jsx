@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Navbar, Footer } from './components/shared';
+import ComingSoon from './components/ComingSoon';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
@@ -8,6 +9,8 @@ import ContactPage from './pages/ContactPage';
 import WorkPage from './pages/WorkPage';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import './index.css';
+
+const UNDER_CONSTRUCTION = true;
 
 function useWebNACursor() {
   useEffect(() => {
@@ -86,6 +89,8 @@ export default function App() {
     setPageKey(k => k + 1);
     setTimeout(() => window.scrollTo({ top: 0 }), 10);
   }, []);
+
+  if (UNDER_CONSTRUCTION) return <ComingSoon />;
 
   const pageMap = {
     home:     <HomePage    navigate={navigate} />,
