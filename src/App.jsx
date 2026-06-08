@@ -44,7 +44,7 @@ function useWebNACursor() {
         dot.style.height = '12px';
         ring.style.width  = '56px';
         ring.style.height = '56px';
-        ring.style.borderColor = 'rgba(0,229,160,0.5)';
+        ring.style.borderColor = 'rgba(96,165,250,0.6)';
       }
     };
     const onOut = (e) => {
@@ -53,7 +53,7 @@ function useWebNACursor() {
         dot.style.height = '8px';
         ring.style.width  = '36px';
         ring.style.height = '36px';
-        ring.style.borderColor = 'rgba(61,92,71,0.6)';
+        ring.style.borderColor = 'rgba(37,99,235,0.5)';
       }
     };
     const onLeave = () => { dot.style.opacity = '0'; ring.style.opacity = '0'; };
